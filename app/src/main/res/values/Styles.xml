@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<style name="textview">
+<item name="android:textColor">@color/text</item>
+<item name="android:background">@color/green</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">50px</item>
+</style>
+
+
+
+
+
+</resources>
