@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,53 +50,56 @@ public class MainActivity extends AppCompatActivity {
         datalist.add("Elemento 1");
         datalist.add("Elemento 2");
         datalist.add("Elemento 3");
-        datalist.add("Elemento 4");
-        datalist.add("Elemento 5");
-        datalist.add("Elemento 6");
-
+        datalist.add("Elemento 1");
+        datalist.add("Elemento 2");
+        datalist.add("Elemento 3");
+        datalist.add("Elemento 1");
+        datalist.add("Elemento 2");
+        datalist.add("Elemento 3");
 
         customAdapter = new CustomAdapter(datalist, this);
         recyclerView.setAdapter(customAdapter);
 
+        ImageButton buttonPLUS;
+        buttonPLUS = findViewById(R.id.imageButton);
+        buttonPLUS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), NewTask.class);
+                startActivity(intent);
+            }
+        });
 
     }
+
+
+
+
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
 
-        if  ( id== R.id.item1){
-            Intent intent = new Intent(getApplicationContext(), MainActivity_empty.class);
+        if (id == R.id.item1) {
+            Intent intent = new Intent(getApplicationContext(), NewTask.class);
             startActivity(intent);
-        } else if (id==R.id.btnl) {
-            abrirMapa();
-
+        } else if (id == R.id.btnl) {
+            taskNew();
         }
         return super.onOptionsItemSelected(item);
+    }
 
-
-
-        public void  abrirMapa(){
-
-        double latitude =14.656294;
-        double longitud = -90.460636;
-
-        String label = "micasita";
-        String uriBegin = "geo:"+ latitude+","+longitud;
-        String query = latitude + ","+longitud+"("+ label+")";
-        String encodedQuery= Uri.encode(query);
-        String uriString = uriBegin+"?q=" + encodedQuery+"&z=16";
-        Uri uri = Uri.parse(uriString);
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    public void taskNew() {
+        Intent intent = new Intent(getApplicationContext(), NewTask.class);
         startActivity(intent);
-
-
     }
 }
 

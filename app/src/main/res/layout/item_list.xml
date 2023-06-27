@@ -8,8 +8,7 @@
     android:animateLayoutChanges="true">
 
     <TextView
-
-        android:id="@+id/rvdetail"
+        android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
@@ -27,6 +26,3 @@
         ></TextView>
 
 </LinearLayout>
-
-
-

@@ -38,15 +38,21 @@ public CustomAdapter(List<String>lista,Context con){
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
     //info
     String data= datalist.get(position);
+
         holder.textView.setText(data);
+
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.height = 250;
+        holder.itemView.setLayoutParams(layoutParams);
+
        //color
         if (SelectedItem== position){
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.greenD));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.bocchi));
 
         }else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context,R.color.back));
         }
-holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         int prevselect = SelectedItem;
@@ -54,6 +60,7 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
         String mensaje = "el elemento seleccionado es:" + datalist.get(position);
         notifyItemChanged(prevselect);
         notifyItemChanged(SelectedItem);
+
     }
 });
 
