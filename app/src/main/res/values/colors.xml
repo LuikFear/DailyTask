@@ -5,9 +5,9 @@
 
     <color name="text">#231b42</color>
     <color name="back">#e6e1cd</color>
-    <color name="green">#c6d8c0</color>
-    <color name="greenD">#657564</color>
-    <color name="salmon">#d6b3b1</color>
+    <color name="green">#3B8C66</color>
+    <color name="greenD">#367356</color>
+    <color name="salmon">#223240</color>
     <color name="bocchi">#CF8392</color>
 
 </resources>
