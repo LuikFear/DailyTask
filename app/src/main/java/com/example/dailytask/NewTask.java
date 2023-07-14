@@ -29,7 +29,7 @@ public class NewTask extends AppCompatActivity {
     private SQLiteDatabase database;
     private EditText Task1;
     private EditText Task2;
-    private List<String> taskList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,74 +37,51 @@ public class NewTask extends AppCompatActivity {
 
         Task1=findViewById(R.id.Task1);
         Task2=findViewById(R.id.Task2);
-        editTextTitle = findViewById(R.id.Task1);
-        editTextDescription = findViewById(R.id.Task2);
+
 
         databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
         Button addButton = findViewById(R.id.addButton);
-        Button LeerBtn = findViewById(R.id.btnLeer);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String task = editTextTitle.getText().toString().trim();
-                String des = editTextDescription.getText().toString().trim();
-                if (!task.isEmpty()){
-                    addItem(task);
-                    Toast.makeText(NewTask.this, "la tarea se agrego c:", Toast.LENGTH_SHORT).show();
-                    Task1.setText("");
-                }else {
-                    Toast.makeText(NewTask.this, "Ingrese su tarea", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        LeerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //readTask();
-            }
-        });
-
-
-
-
-
-
-
+                saveTask();
+            }});
     }
 
 
+        private void saveTask() {
+            String task = Task1.getText().toString().trim();
+            String description = Task2.getText().toString().trim();
 
+            if (!task.isEmpty()) {
+                long newRowId = databaseHelper.insertTask(task, description);
 
-
-
-
-
-
-
-
-
-
-
-    private void addItem(String Task1){
-
-        String task1 = editTextTitle.getText().toString();
-        String task2 = editTextDescription.getText().toString();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_TASK, task1);
-        //Items.item=task1;
-        //Items.item2=task2;
-        database.insert(DatabaseHelper.TABLE_NAME, null, values);
-
-        values.clear();
-        values.put(DatabaseHelper.COLUMN_TASK, task2);
-
-        database.insert(DatabaseHelper.TABLE_NAME, null, values);
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-
+                if (newRowId != -1) {
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Escribe Alguna tarea c:", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

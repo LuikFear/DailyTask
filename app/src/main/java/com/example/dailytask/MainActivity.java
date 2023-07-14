@@ -26,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
-    static List<ListItem> itemList = new ArrayList<ListItem>();
     private CustomAdapter customAdapter;
     private  DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
+
+    private Button addTaskbt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
-        if (!TextUtils.isEmpty(Items.item) && !TextUtils.isEmpty(Items.item2)) {
-            itemList.add(new ListItem(Items.item, Items.item2));
-        }
+       // if (!TextUtils.isEmpty(Items.item) && !TextUtils.isEmpty(Items.item2)) {
+          //  itemList.add(new ListItem(Items.item, Items.item2));
+       // }
 
 
 
-        customAdapter = new CustomAdapter(itemList);
+
         recyclerView.setAdapter(customAdapter);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(500);
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeItem();
+
             }
         });
 
@@ -85,36 +87,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<ListItem> taskList = new ArrayList<>();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        Cursor cursor = databaseHelper.getAllTasks();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Obtener los datos de cada tarea del cursor
+                String taskName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TASK));
+                String taskDescription = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION));
+                taskList.add(new ListItem(taskName, taskDescription));
+                setSupportActionBar(toolbar); //mostrar de nuevo la toolbar
 
-    public void readTask () {
-        itemList.clear();
-        try {
-
-            String[] col = {DatabaseHelper.COLUMN_TASK, DatabaseHelper.COLUMN_DESCRIPTION};
-            Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, col, null, null, null, null, null);
-            if (cursor.moveToFirst()) {
-                do {
-                    String task = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TASK));
-                    String des = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION));
-                    //itemList.add(task);
-                    //CustomAdapter.notifyItemInserted(itemList.size()-1);
-                    Toast.makeText(MainActivity.this, task, Toast.LENGTH_SHORT).show();
-                } while (cursor.moveToNext());
-            } cursor.close();
-
-        }    catch (Exception e){
-            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                // add tasks and show them on RV
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        CustomAdapter customAdapter = new CustomAdapter(taskList);
+        recyclerView.setAdapter(customAdapter);
+
+
     }
 
-    private void removeItem(){
-        if (!itemList.isEmpty())
-        {
-            int lastIndex = itemList.size()-1;
-            itemList.remove(lastIndex);
-            customAdapter.notifyItemRemoved(lastIndex);
-        }
-    }
+
+
+
+
+
+
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);

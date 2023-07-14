@@ -36,8 +36,8 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
         android:text="Añadir Tarea"
-        app:layout_constraintBottom_toTopOf="@+id/btnLeer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,15 +79,6 @@
         android:textSize="30dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="73dp" />
-
-    <Button
-        android:id="@+id/btnLeer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="Leer Tareas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="151dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
